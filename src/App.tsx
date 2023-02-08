@@ -1,12 +1,34 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+import { ServiceDescription } from './types';
+import { LoadingIndicator } from './components/LoadingIndicator';
+import { ErrorDescription } from './components/ErrorDescription';
+import { Services } from './components/Services';
+import { ping } from './services';
+
+const theme = createTheme();
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true);
+  const [services, setServices] = useState<ServiceDescription[]>([]);
+  const [error, setError] = useState<Error>();
+
+  useEffect(() => {
+    ping()
+      .then(setServices)
+      .catch(setError)
+      .finally(() => setIsLoading(false));
+  }, []);
 
   return (
-    <button onClick={() => setCount((count) => count + 1)}>
-      count is {count}
-    </button>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="sm" sx={{ marginTop: '5em' }}>
+        {isLoading && <LoadingIndicator />}
+        {error && <ErrorDescription error={error} />}
+        {!isLoading && !error && <Services services={services} />}
+      </Container>
+    </ThemeProvider>
   )
 }
 
