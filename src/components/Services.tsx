@@ -21,12 +21,8 @@ export const Services: FC<ServicesProps> = ({ services }) => {
     <>
       {services.map(item => (
         <Accordion key={item.api} expanded={item.api === expanded} onChange={handleChange(item.api)}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            // aria-controls="panel1a-content"
-            // id="panel1a-header"
-          >
-            <Typography>{item.title}</Typography>
+          <AccordionSummary expandIcon={<ExpandMoreIcon color="primary"/>}>
+            <Typography variant="h6" color="primary">{item.title}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             {item.description.map((text, idx) => (
@@ -34,7 +30,7 @@ export const Services: FC<ServicesProps> = ({ services }) => {
                 {text}
               </Typography>)
             )}
-            <Button href={item.api} target="_blank">Перейти</Button>
+            <Button color="primary" href={item.api} target="_blank">Открыть</Button>
           </AccordionDetails>
         </Accordion>
       ))}

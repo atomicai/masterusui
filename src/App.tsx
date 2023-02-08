@@ -6,8 +6,23 @@ import { LoadingIndicator } from './components/LoadingIndicator';
 import { ErrorDescription } from './components/ErrorDescription';
 import { Services } from './components/Services';
 import { ping } from './services';
+import CssBaseline from '@mui/material/CssBaseline';
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#A456F0',
+    },
+    secondary: {
+      main: '#d6a13c ',
+    },
+    background: {
+      default: '#12071F',
+      paper: '#12071F',
+    },
+  },
+});
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +38,8 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="sm" sx={{ marginTop: '5em' }}>
+      <CssBaseline />
+      <Container component="main" maxWidth="sm" sx={{ paddingTop: '5em' }}>
         {isLoading && <LoadingIndicator />}
         {error && <ErrorDescription error={error} />}
         {!isLoading && !error && <Services services={services} />}
